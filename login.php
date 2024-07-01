@@ -138,18 +138,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     
         if (empty($usernameErr) && empty($passwordErr)) 
         {
-            $sql = "SELECT * FROM register WHERE username = '".$username."' ";
+            $sql = "SELECT * FROM customer WHERE username = '".$username."' ";
             $result = $db->conn->query($sql);
     
                 if ($result->num_rows == 1) 
                 {
                     //echo "hi";
                     $row = $result->fetch_assoc();
-                    if ($password==$row['password']) 
+                    //echo "fetched";
+                    if (password_verify($password, $row['password'])) 
                     {
+                       // echo "connected";
                         $_SESSION['username'] = $username;
-                        //echo "connected";
-                        header("location:home_page.php");
+                       $_SESSION['customer_id'] = $id; 
+                       // echo "connected";
+                        header("location:main.html");
                     }
 
                     else 
@@ -194,6 +197,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
             <div class = "register-link">
                 <p>Don't have an account? <a href="registration.php">Register</a></p>
+            </div>
+
+            <div class = "register-link">
+                <p>for admin click here <a href="admin_login.php">admin</a></p>
             </div>
 </form>
 

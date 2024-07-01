@@ -158,9 +158,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         $email = $_POST["email"];
         $username = $_POST["username"];
         $password = $_POST["password"];
-
-        $query = "INSERT INTO register (name,email,username,password) 
-                  VALUES ('".$name."','".$email."','".$username."','".$password."')";  
+        //$phone_no = $_POST["phone_no"];
+        $hashpassword = password_hash($password,PASSWORD_DEFAULT);
+        $query = "INSERT INTO customer (name,email,username,password) 
+                  VALUES ('".$name."','".$email."','".$username."','".$hashpassword."')";  
         mysqli_query($db->conn,$query);   
         
         header("Location: login.php");
